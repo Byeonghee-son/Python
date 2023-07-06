@@ -33,6 +33,15 @@ def createProblem():
 
 
 def calcDistanceTable(numCities, locations): ###
+    table = []
+    for i in range(numCities):
+        row = []
+        for j in range(numCities):
+            dx = locations[i][0]-locations[j][0]
+            dy = locations[i][1]-locations[j][1]
+            d = round(math.sqrt(dx**2 + dy**2),1)
+            row.append(d)
+        table.append(row)
     return table # A symmetric matrix of pairwise distances
 
 
@@ -60,6 +69,17 @@ def evaluate(current, p): ###
     ## Calculate the tour cost of 'current'
     ## 'p' is a Problem instance
     ## 'current' is a list of city ids
+    global NumEval
+    NumEval += 1
+    n = p[0]
+    table = p[2]
+    cost = 0
+    for i in range(n-1):
+        acity = current[i]
+        bcity = current[i+1]
+        result = table[acity][bcity]
+        cost += result
+    cost += table[current[n-1]][current[0]]
     return cost
 
 
@@ -86,6 +106,14 @@ def inversion(current, i, j):  ## Perform inversion
     return curCopy
 
 def bestOf(neighbors, p): ###
+    best = neighbors[0]
+    bestValue = evaluate(best,p)
+
+    for i in range(1,len(neighbors)):
+        newValue = evaluate(neighbors[i],p)
+        if newValue < bestValue:
+            best = neighbors[i]
+            bestValue = newValue
     return best, bestValue
 
 def describeProblem(p):
