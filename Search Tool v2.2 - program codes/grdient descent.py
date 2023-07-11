@@ -5,7 +5,7 @@ def main():
     p = Numeric()
     p.setVariables()
     # Call the search algorithm
-    solution, minimum = steepestAscent(p)
+    solution, minimum = gradientDescent(p)
     # Show the problem and algorithm settings
     p.storeResult(solution, minimum)
     p.describe()
@@ -14,12 +14,12 @@ def main():
     p.report()
 
 
-def steepestAscent(p):
+def gradientDescent(p):
     current = p.randomInit() # 'current' is a list of values
     valueC = p.evaluate(current)
     while True:
-        neighbors = p.mutants(current)
-        successor, valueS = bestOf(neighbors,p)
+        successor = p.takeStep(current)
+        valueS = p.evalutate(successor)
         if valueS >= valueC:
             break
         else:

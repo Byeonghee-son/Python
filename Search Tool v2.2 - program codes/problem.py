@@ -42,8 +42,17 @@ class Numeric(Problem):
         self._domain = []
         self._delta = 0.01
 
+        self._alpha = 0.01
+        self._dx = 10**(-4)
+
     def getDelta(self):
         return self._delta
+
+    def getAlpha(self):
+        return self._alpha
+
+    def getDx(self):
+        return self._dx
 
     def setVariables(self): #createProblem
         ## Read in an expression and its domain from a file.
@@ -63,6 +72,41 @@ class Numeric(Problem):
             line = infile.readline()
         infile.close()
         self._domain = [varNames, low, up]
+
+    def takeStep(self,x,v):
+        grad = self.gradient(x,v)
+        xCopy = x[:]
+        for i in range(len(x)):
+            xCopy[i] -= self._alpha * grad[i]
+
+        if self.isLegal(xCopy):
+            return xCopy
+        else:
+            return x
+
+    def isLegal(self,x):
+        domain = self._domain
+        low, up = domain[1], domain[2]
+        for i in range(len(low)):
+            if low[i] <= x[i] <= up[i]:
+                pass
+            else:
+                return False
+        return True
+
+
+    def gradient(self,x,v):
+        grad = []
+        for i in range(len(x)):
+            xCopy = x[:]
+            xCopy[i] += self._dx
+            df = self.evaluate(xCopy) - v
+            g = df / self._dx
+            grad.append(g)
+        return grad        
+
+
+
 
     def randomInit(self):
         domain = self._domain  # domain: [varNames, low, up]
@@ -143,7 +187,8 @@ class Tsp(Problem):
         self._locations = []
         self._distanceTable = []
     
-    
+    def getDelta(self):
+        return self._delta
 
     def setVariables(self): #createProblem
         ## Read in a TSP (# of cities, locatioins) from a file.
