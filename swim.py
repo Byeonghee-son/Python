@@ -55,7 +55,7 @@ def register_for_class(username, password):
     driver.quit()
 
 accounts = [
-    {"username": "tn414848", "password": "Qwer!234"},
+    {"username": "id1", "password": "pw1"},
     {"username": "친구분아이디", "password": "친구분비밀번호"}  # 여기에 더 많은 계정을 추가할 수 있습니다.
 ]
 

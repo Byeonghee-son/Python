@@ -2,7 +2,7 @@ import requests
 
 # 쿠키 값을 추출합니다 (실제로는 브라우저에서 수동으로 쿠키를 확인하고 복사해야 합니다.)
 cookies = {
-    'FMCSSESSIONID': '1630F80F22325EB3EAB6FF2F9FF63B37'
+    'FMCSSESSIONID': 'cookievalue'
 }
 
 # 쿠키와 함께 웹사이트에 요청을 보냅니다.
